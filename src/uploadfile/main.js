@@ -1,4 +1,4 @@
-var AppView = require( 'AppView' ).AppView
+var AppView = require( 'views/AppView' ).AppView
 var $ = require( 'jquery' )
 
 $( function(){
