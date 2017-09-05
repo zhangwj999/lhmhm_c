@@ -27,7 +27,8 @@ module.exports = function (grunt) {
 			directory: ''
 		}).addPages(
 			'displayfile',
-			'uploadfile'
+			'uploadfile',
+			'videocap'
 		).getConfig()
 	)
 }
