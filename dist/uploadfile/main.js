@@ -85,10 +85,10 @@ exports.AppView = Backbone.View.extend({
       data: f
     }).done(function(data) {
       var modTmp;
-      if (data.ok) {
+      if (data.success) {
         modTmp = new FileItemModel({
-          attachId: data.data.ATTACH_ID,
-          src: data.data.PATH
+          attachId: data.obj.ATTACH_ID,
+          src: data.obj.PATH
         });
         return self.files.push(modTmp);
       }

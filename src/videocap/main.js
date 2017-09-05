@@ -1,5 +1,5 @@
-var App = require( 'AppView' )
+var App = require( 'AppView' ).AppView
 
 $(function(){
-    var app = new App( {el:'#mainForm'} );
+	var app = new App( {el:'#mainForm'} );
 })

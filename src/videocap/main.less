@@ -3,83 +3,84 @@ body {
 	padding: 0.5em;
 	text-align: center;
 	font-family: "Helvetica Neueu", "Helvetica", "Arial", sans;
-	.divBody{
-		width:100%;
-		height: 768px;
-		.left-container{
-			float:left;
-			width:49%;
-			height: 100%;
-			#camera_info{
-				line-height: 40px;
-				width: 100%;
-				text-align: center;
+}
+.divBody{
+	width:100%;
+	height: 768px;
+	.left-container{
+		float:left;
+		width:49%;
+		height: 100%;
+		#camera_info{
+			line-height: 40px;
+			width: 100%;
+			text-align: center;
+		}
+		#camera{
+			display: inline-block;
+			background-color: #eee;
+			width: 500px;
+			height: 600px;
+			margin: auto;
+			text-align: center;
+			.placeholder{
+				padding: 0.5em;
 			}
-			#camera{
-				display: inline-block;
-				background-color: #eee;
-				width: 500px;
-				height: 600px;
-				margin: 0.5em;
-				.placeholder{
-					padding: 0.5em;
-				}
-			}
+		}
+		.take_snapshots_container{
+			margin: auto;
+			text-align: center;
 			#take_snapshots{
 				width:200px;
 				height: 40px;
 				line-height: 40px;
 				text-align: center;
-			}
-		}
-		.right-container{
-			float:right;
-			width:49%;
-			height: 100%;
-			#snapshots {
-				height: 100%;
-				width:100%;
-				margin: 0.5em 0;
-				padding: 3px;
-				border: 1px solid #aaa;
-				white-space: nowrap;
-				overflow-x: auto;
-				overflow-y: hidden;
-				canvas,img{
-					box-sizing: border-box;
-					-webkit-box-sizing: border-box;
-					-moz-box-sizing: border-box;
-					-ms-box-sizing: border-box;
-					-o-box-sizing: border-box;
-					height: 150px;
-					margin-left: 10px;
-					margin-top: 10px;
-					border: 3px solid transparent;
-					float:left;
-				}
-				.sign{
-					float:left;
-					color: red;
-					widows: 20px;
-					height: 150px;
-					line-height: 150px;
-					text-align: center;
-					display: block;
-				}
-				.selected{
-					border: 3px solid #000;
-				}
+				background: #428BCA;
+				color: #FFFFFF;
+				cursor: pointer;
 			}
 		}
 	}
-}
-
-button, input, #loader {
-	display: none;
-}
-
-input {
-	width: 300px;
+	.right-container{
+		float:right;
+		width:49%;
+		height: 100%;
+		#snapshots {
+			height: 100%;
+			width:100%;
+			margin: 0.5em 0;
+			padding: 3px;
+			border: 1px solid #aaa;
+			white-space: nowrap;
+			overflow-x: auto;
+			overflow-y: hidden;
+			canvas,img{
+				box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-ms-box-sizing: border-box;
+				-o-box-sizing: border-box;
+				width:120px !important;
+				height: 160px !important;
+				margin-left: 10px;
+				margin-top: 10px;
+				border: 3px solid transparent;
+				float:left;
+			}
+			.sign{
+				float:left;
+				color: red;
+				width: 20px;
+				height: 150px;
+				line-height: 150px;
+				text-align: center;
+				display: block;
+			}
+			.selected{
+				border: 3px solid #000;
+			}
+		}
+	}
 }
 
 button, #upload_status, #upload_result, #loader {
