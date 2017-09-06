@@ -206,9 +206,10 @@ exports.AppView = Backbone.View.extend({
           }).done(function(data) {
             if (data.success) {
               $dom.data("snapshot").discard();
-              return $dom.hide("slow", function() {
-                return $(this).remove();
-              });
+              return $dom.hide("slow", (function() {
+                $(this).remove();
+                return $(this).next('span').remove();
+              }));
             } else {
               return layer.msg('删除服务器已上传文件失败！', {
                 icom: 2,
