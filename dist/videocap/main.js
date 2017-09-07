@@ -121,7 +121,8 @@ exports.AppView = Backbone.View.extend({
         method: 'GET',
         dataType: 'json',
         data: {
-          path: rlt.data
+          path: rlt.data,
+          applyId: window.applyId
         }
       }).done(function(data) {
         if (data.success) {

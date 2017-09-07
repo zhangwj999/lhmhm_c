@@ -80,9 +80,13 @@ exports.AppView = Backbone.View.extend({
   initialize: function(options) {
     var files, self;
     $('#big-img-container').hide();
+    if ((typeof readOnly !== "undefined" && readOnly !== null) && readOnly) {
+      $('.add-file').hide();
+    }
     self = this;
     files = new FileItemCollection();
     self.files = files;
+    files.comparator = 'SEQ';
     self.listenTo(files, "add", this.addOne);
     self.listenTo(files, 'reset', this.addAll);
     window.fileChangeCallback = function() {
@@ -105,25 +109,51 @@ exports.AppView = Backbone.View.extend({
     return $('#hid-input-file').click();
   },
   fileChangeCallback: function() {
-    var _handler, f, idx, xhr;
+    var _handler, f, fileName, idx, self, xhr;
+    self = this;
+    f = $('#hid-input-file')[0].files[0];
+    fileName = f.name;
     _handler = function(event) {
-      var data, modTmp, responseText, status;
+      var data, responseText, status;
       console.log(event);
       status = event.target.status;
       responseText = event.target.responseText;
       if (status >= 200 && status < 300) {
         console.log(responseText);
         data = eval('(' + responseText + ')');
-        if (data.success) {
-          modTmp = new FileItemModel({
-            attachId: data.obj.ATTACH_ID,
-            src: data.obj.PATH
+        if (data.ok) {
+          return $.ajax({
+            url: 'applyController.do?upLoadJpeg',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+              path: data.data,
+              fileName: fileName,
+              applyId: window.applyId
+            }
+          }).done(function(data) {
+            var modTmp;
+            if (data.success) {
+              layer.msg('上传成功！', {
+                icon: 1,
+                time: 2000
+              });
+              modTmp = new FileItemModel(data.obj);
+              return self.files.push(modTmp);
+            } else {
+              return layer.msg('上传成功，插入附件表失败！', {
+                icon: 2,
+                time: 2000
+              });
+            }
+          }).fail(function() {
+            return layer.msg('上传失败！', {
+              icon: 2,
+              time: 2000
+            });
+          }).always(function() {
+            return layer.close(idx);
           });
-          layer.msg("上传成功！", {
-            icon: 1,
-            time: 2000
-          });
-          return layer.close(idx);
         }
       } else {
         layer.msg("上传失败！", {
@@ -133,7 +163,6 @@ exports.AppView = Backbone.View.extend({
         return layer.close(idx);
       }
     };
-    f = $('#hid-input-file')[0].files[0];
     idx = layer.load('上传中');
     xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://' + document.domain + "/uploadImg");
@@ -183,8 +212,8 @@ exports.FileItemView = Backbone.View.extend({
     reg = /.*\.((jpeg)|(jpg)|(png)|(gif))/g;
     rlt = reg.exec(self.model.get('fileName'));
     isImage = (rlt != null) && rlt.length;
-    src = Utils.getUrlByAttach(self.model);
-    dom = "<img class=\"" + (isImage ? 'img' : '') + "\" src=\"/" + src + "\"></img>\n<div class=\"fun-container\">\n	<span class=\"fileName\">" + (self.model.get('fileName')) + "</span>\n	<input type=\"button\" class=\"delFile\" style=\"" + ((typeof readonly !== "undefined" && readonly !== null) && readonly ? 'display:none;' : '') + "\" value=\"删除\"/>\n	<input type=\"button\" class=\"downloadFile\" value=\"下载\"/>\n</div>";
+    src = isImage ? Utils.getUrlByAttach(self.model) : 'displayfile/file.png';
+    dom = "<img class=\"" + (isImage ? 'img' : '') + "\" src=\"/" + src + "\"></img>\n<div class=\"fun-container\">\n	<span class=\"fileName\">" + (self.model.get('fileName')) + "</span>\n	<input type=\"button\" class=\"delFile\" style=\"" + ((typeof readOnly !== "undefined" && readOnly !== null) && readOnly ? 'display:none;' : '') + "\" value=\"删除\"/>\n	<input type=\"button\" class=\"downloadFile\" value=\"下载\"/>\n</div>";
     self.$el.html(dom).addClass('file-item-container');
     return self;
   },
@@ -203,14 +232,12 @@ exports.FileItemView = Backbone.View.extend({
     });
   },
   delFile: function() {
-    return this.model.destroy();
+    return this.model.destroy({
+      url: 'applyController.do?deleteJpeg&id=' + this.model.get('id')
+    });
   },
   downloadFile: function() {
-    return $.ajax({
-      url: 'http://' + this.model.src,
-      method: 'GET',
-      contentType: 'application/octet-stream'
-    });
+    return window.open('applyController.do?downloadById&id=' + this.model.get('id'));
   }
 });
 
