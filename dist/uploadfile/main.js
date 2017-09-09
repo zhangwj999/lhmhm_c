@@ -9,7 +9,8 @@ exports.getFilesById = function() {
   return $.ajax({
     url: 'applyController.do?listJpeg',
     data: {
-      applyId: applyId
+      applyId: applyId,
+      type: type
     },
     dataType: 'json',
     method: 'GET'
@@ -116,7 +117,8 @@ exports.AppView = Backbone.View.extend({
             data: {
               path: data.data,
               fileName: fileName,
-              applyId: window.applyId
+              applyId: window.applyId,
+              type: window.type
             }
           }).done(function(data) {
             var modTmp;
@@ -200,7 +202,7 @@ exports.FileItemView = Backbone.View.extend({
     rlt = reg.exec(self.model.get('fileName'));
     isImage = (rlt != null) && rlt.length;
     src = isImage ? Utils.getUrlByAttach(self.model) : 'displayfile/file.png';
-    dom = "<img class=\"" + (isImage ? 'img' : '') + "\" src=\"/" + src + "\"></img>\n<div class=\"fun-container\">\n	<span class=\"fileName\">" + (self.model.get('fileName')) + "</span>\n	<input type=\"button\" class=\"delFile\" style=\"" + ((typeof readOnly !== "undefined" && readOnly !== null) && readOnly ? 'display:none;' : '') + "\" value=\"删除\"/>\n	<input type=\"button\" class=\"downloadFile\" value=\"下载\"/>\n</div>";
+    dom = "<img class=\"" + (isImage ? 'img' : '') + "\" src=\"/" + src + "\"></img>\n<div class=\"fun-container\">\n	<span class=\"fileName\">" + (self.model.get('fileName')) + "</span>\n	<input type=\"button\" class=\"delFile\" style=\"\" value=\"删除\"/>\n	<input type=\"button\" class=\"downloadFile\" value=\"下载\"/>\n</div>";
     self.$el.html(dom).addClass('file-item-container');
     return self;
   },
