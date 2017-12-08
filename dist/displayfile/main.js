@@ -167,7 +167,7 @@ exports.AppView = Backbone.View.extend({
     };
     idx = layer.load('上传中');
     xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://' + document.domain + "/uploadImg");
+    xhr.open('POST', 'http://' + document.domain + ':' + location.port + "/uploadImg");
     xhr.timeout = 60000;
     xhr.onload = _handler;
     xhr.onerror = _handler;

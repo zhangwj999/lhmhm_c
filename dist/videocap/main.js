@@ -24,9 +24,9 @@ $curDom = null;
 layerIdx = null;
 
 options = {
-  shutter_ogg_url: "/jpeg_camera/shutter.ogg",
-  shutter_mp3_url: "/jpeg_camera/shutter.mp3",
-  swf_url: "/jpeg_camera/jpeg_camera.swf"
+  shutter_ogg_url: 'http://' + document.domain + ':' + location.port + "/jpeg_camera/shutter.ogg",
+  shutter_mp3_url: 'http://' + document.domain + ':' + location.port + "/jpeg_camera/shutter.mp3",
+  swf_url: 'http://' + document.domain + ':' + location.port + "/jpeg_camera/jpeg_camera.swf"
 };
 
 camera = new JpegCamera("#camera", options).ready(function(info) {
@@ -94,7 +94,7 @@ exports.AppView = Backbone.View.extend({
     if (!$selected || $selected.length === 0) {
       return layer.alert('请先选择一张图片！');
     } else {
-      api_url = 'http://' + document.domain + $("#api_url").val();
+      api_url = 'http://' + document.domain + ':' + location.port + $("#api_url").val();
       layerIdx = layer.load('上传中。。。');
       selLength = $selected.length;
       selUploadedLength = 0;
